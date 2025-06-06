@@ -28,6 +28,15 @@ def register(request):
     if serializer.is_valid():
         usuario = serializer.save()
         token = RefreshToken.for_user(usuario)
-        return Response({'mensaje' : 'Su cuenta se a registrado correctamente','token' : str(token),'access' : str(token.access_token),"rol" : usuario.rol},status=status.HTTP_201_CREATED)
+        return Response({'mensaje' : 'Su cuenta se a registrado correctamente','token' : str(token),'access' : str(token.access_token),"rol" : usuario.perfiles.rol},status=status.HTTP_201_CREATED)
     return Response(serializer._errors,status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_clientes(request):
+    if request.user.perfiles.rol != 'A':
+        return Response({'error': 'No Autorizado '} ,status=status.HTTP_403_FORBIDDEN)
+    clientes = Perfiles.objects.filter(rol = 'C')
+    serializer = PerfileSerializer(clientes,many=True)
+    return Response(serializer.data)

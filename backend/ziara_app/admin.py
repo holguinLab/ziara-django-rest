@@ -5,3 +5,4 @@ from .models import *
 @admin.register(Perfiles)
 class AdminPerfil(admin.ModelAdmin):
     list_display = ['id','usuario','rol']
+    list_editable = ['usuario','rol']
