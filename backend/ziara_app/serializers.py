@@ -73,9 +73,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # Serializar para mostrar datos de los perfiles que estan enlazados con el usuario
 
+
+class UserPerfil (serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','email','first_name','last_name','last_login']
+
 class PerfileSerializer(serializers.ModelSerializer):
+    usuario = UserPerfil()
     class Meta :
         model = Perfiles
-        fields = '__all__'
+        fields = ['id','rol','usuario']
 
 

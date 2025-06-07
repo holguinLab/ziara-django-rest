@@ -14,9 +14,6 @@ from .serializers import MyTokenSerializer
 
 # Create your views here.
 
-
-
-
 class MyTokenView(TokenObtainPairView):
     serializer_class = MyTokenSerializer
 
@@ -39,4 +36,13 @@ def listar_clientes(request):
         return Response({'error': 'No Autorizado '} ,status=status.HTTP_403_FORBIDDEN)
     clientes = Perfiles.objects.filter(rol = 'C')
     serializer = PerfileSerializer(clientes,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_barberos(request):
+    if request.user.perfiles.rol != 'A':
+        return Response({'error': 'No Autorizado '} ,status=status.HTTP_403_FORBIDDEN)
+    barberos = Perfiles.objects.filter(rol = 'B')
+    serializer = PerfileSerializer(barberos,many=True)
     return Response(serializer.data)
