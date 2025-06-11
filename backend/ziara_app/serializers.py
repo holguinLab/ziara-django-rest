@@ -17,6 +17,7 @@ class MyTokenSerializer(TokenObtainPairSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required = False ,allow_blank=False )
     last_name = serializers.CharField(required = False ,allow_blank=False )
+    rol = serializers.CharField(required=False,allow_blank=False)
     email = serializers.EmailField(
         required=True,
         max_length=100,
@@ -46,7 +47,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     )
     class Meta :
         model = User
-        fields = ['email','password','first_name','last_name']
+        fields = ['email','password','first_name','last_name','rol']
     
     def create(self,validate_data):
         email = validate_data['email'] # Dato Obligatorio 
@@ -54,6 +55,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         first_name = validate_data.get('first_name','')
         last_name = validate_data.get('last_name','')
+        rol = validate_data.get('rol','C')
         
         user = User(
             username = email,
@@ -63,7 +65,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name = last_name,
         )
         perfil = Perfiles(
-            usuario = user
+            usuario = user,
+            rol = rol
         )
         user.set_password(password) # encripta clave
         user.save()

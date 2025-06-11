@@ -1,7 +1,7 @@
     import axios from "axios"
     import { useEffect,useState } from "react"
     import { Dashboard } from "./AdminPages/Dashboard"
-   
+
     import { ListarPersonal } from "./AdminPages/ListarPersonal"
     import { ServiciosProductos } from "./AdminPages/ServiciosProductos.jsx"
 
