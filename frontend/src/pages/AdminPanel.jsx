@@ -1,16 +1,20 @@
     import axios from "axios"
     import { useEffect,useState } from "react"
     import { Dashboard } from "./AdminPages/Dashboard"
-    import { ListarClientes } from "./AdminPages/ListarClientes"
-    import { ListarBarberos } from "./AdminPages/ListarBarberos"
+   
+    import { ListarPersonal } from "./AdminPages/ListarPersonal"
+    import { ServiciosProductos } from "./AdminPages/ServiciosProductos.jsx"
 
     export function AdminPanel() {
         const API = import.meta.env.VITE_URL_API
         const token = localStorage.getItem('token')
         const [acces,setAccess] = useState(false)
         const [activo , setActivo] = useState('dashboard')
+
+
         const [clientes , setClientes] = useState([])
         const [barberos , setBarberos] = useState([])
+        const [servicios , setServicios] = useState([])
         useEffect(()=>{
             axios.get(`${API}/api/listar_clientes/`,{headers:{
                 Authorization:`Bearer ${token}`
@@ -38,12 +42,24 @@
                 }
             })
             
+            axios.get(`${API}/api/servicios/`,{headers:{
+                Authorization:`Bearer ${token}`
+            }})
+            .then((res =>{
+                setAccess(true)
+                setServicios(res.data)
+            }))
+            .catch((error)=>{
+                if(error && error.response.status === 403){
+                    alert('Te Pillamos Malicioso')
+                }
+            })
         },[])
         return (
             acces ? (
-                <div className="min-h-screen  flex flex-col bg-gray-100">
+                <div className="min-h-screen  flex  bg-gray-100">
                 {/* Sidebar */}
-                <aside className=" absolute h-full w-64 bg-gray-900 text-white z-50">
+                <aside className=" fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white z-50 overflow-y-auto">
                     <div className="p-4">
                         <div className="flex items-center space-x-2">
                             <svg className="h-8 w-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,18 +78,21 @@
                                 </svg>
                                 Dashboard
                             </button>
-                            <button onClick={()=>setActivo('clientes')} className={`flex items-center px-4 py-3 text-sm ${activo === "clientes" ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800"}  rounded-lg`}>
+
+                            <button onClick={()=>setActivo('personal')} className={`flex items-center px-4 py-3 text-sm ${activo === "personal" ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800"}  rounded-lg`}>
                                 <svg className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                Gestión de Clientes
+                                Gestión de Personal
                             </button>
-                            <button onClick={()=>setActivo('barberos')} className={`flex items-center px-4 py-3 text-sm ${activo === "barberos" ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800"}  rounded-lg`}>
+                            
+                            <button onClick={()=>setActivo('servicios')} className={`flex items-center px-4 py-3 text-sm ${activo === "servicios" ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800"}  rounded-lg`}>
                                 <svg className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
-                                Gestión de Barberos
+                                Servicios y Productos
                             </button>
+
                             <a href="#" className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 rounded-lg">
                                 <svg className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -104,17 +123,15 @@
                 </aside>
 
                 {/* Main Content */}
-                <main className="ml-64 p-8">
+                <main className=" flex-1 ml-64 p-8">
                     {activo === 'dashboard' && (
                         <Dashboard clientes={clientes} barberos={barberos}/>
                     )}
-
-                    {activo === 'clientes' && (
-                        <ListarClientes clientes={clientes}/>
+                    {activo === 'personal' && (
+                        <ListarPersonal barberos={barberos} clientes={clientes}/>
                     )}
-
-                    {activo === 'barberos' && (
-                        <ListarBarberos barberos={barberos}/>
+                    {activo === 'servicios' && (
+                        <ServiciosProductos servicios={servicios}/>
                     )}
                 </main>
             </div>

@@ -46,3 +46,13 @@ def listar_barberos(request):
     barberos = Perfiles.objects.filter(rol = 'B')
     serializer = PerfileSerializer(barberos,many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def servicios(request):
+    if request.user.perfiles.rol != 'A':
+        return Response({'error': 'No Autorizado '} ,status=status.HTTP_403_FORBIDDEN)
+    servicios = Servicios.objects.all()
+    serializer = ServiciosSerializer(servicios,many=True)
+    return Response(serializer.data)

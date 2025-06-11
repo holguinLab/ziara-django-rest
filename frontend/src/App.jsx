@@ -27,8 +27,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className=' flex flex-col min-h-screen'>
-        <Navbar/>
+      <div className='flex-1 flex flex-col min-h-screen'>
+        {rol != 'A' && (<Navbar/>)}
         <main className='flex-grow'>
             <Routes>
               <Route path='/' element={<Home/>} />
@@ -82,7 +82,7 @@ function App() {
                 )}/>
             </Routes>
         </main>
-        <Footer/>
+        {rol != 'A' && (<Footer/>)}
       </div>
     </BrowserRouter>
   )

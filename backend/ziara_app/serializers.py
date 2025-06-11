@@ -86,3 +86,9 @@ class PerfileSerializer(serializers.ModelSerializer):
         fields = ['id','rol','usuario']
 
 
+class ServiciosSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Servicios
+        fields = ['id','nombre','precio','descripcion','categoria']
+
+
