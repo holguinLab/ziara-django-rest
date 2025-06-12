@@ -108,8 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://todo-mern-two-khaki.vercel.app"
-    "https://ziara-django-rest-holguins-projects.vercel.app"
+    "https://ziara-django-rest.vercel.app"
 ]
 CORS_ALLOW_CREDENTIALS = True
 
