@@ -12,6 +12,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenSerializer
 
+from supabase import create_client
+
+from decouple import config
+
+url: str =config("SUPABASE_URL")
+key: str =config("SUPABASE_KEY")
+supabase = create_client(url, key)
+
+
+
+
 # Create your views here.
 
 class MyTokenView(TokenObtainPairView):
@@ -55,3 +66,13 @@ def servicios(request):
     servicios = Servicios.objects.all()
     serializer = ServiciosSerializer(servicios,many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def cargar_archivo(request):
+    archivo = request.FILES.get('file')
+    if not archivo:
+        return  Response({'mensaje':'No se cargo ningun archivo'},status=status.HTTP_400_BAD_REQUEST)
+    response = (supabase.storage.from_('avatares').upload(f'{archivo.name}', archivo.read(),{'content-type':archivo.content_type}))
+    url = supabase.storage.from_('avatares').get_public_url(archivo.name)
+    return Response({'mensaje': 'Archivo subido exitosamente', 'url': url}, status=200)

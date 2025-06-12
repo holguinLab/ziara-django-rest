@@ -27,8 +27,8 @@ export function Dashboard({clientes,barberos}) {
                     </button>
                     <button className="flex items-center space-x-2">
                         <img
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3"
+                            className="h-10 w-10 rounded-full"
+                            src=" https://ifxqightozunauqcnpzm.supabase.co/storage/v1/object/public/avatares/1c01ef8ed9221c6d79f300472be12035.jpg?"
                             alt="Admin"
                         />
                     </button>
