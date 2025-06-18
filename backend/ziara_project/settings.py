@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://ziara-django-rest.onrender.com",
-    "https://holguin.pythonanywhere.com"
+    
 ]
 CORS_ALLOW_CREDENTIALS = True
 
