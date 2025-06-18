@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://ziara-django-rest.onrender.com",
+    "https://ziara-django-rest.vercel.app",
     
 ]
 CORS_ALLOW_CREDENTIALS = True
