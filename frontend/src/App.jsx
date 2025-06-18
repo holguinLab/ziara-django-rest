@@ -27,9 +27,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='flex-1 flex flex-col min-h-screen'>
+      <div className='d-flex flex-column min-vh-100'>
         {rol != 'A' && (<Navbar/>)}
-        <main className='flex-grow'>
+        <main className='flex-fill'>
             <Routes>
               <Route path='/' element={<Home/>} />
               <Route path='/login' element={
@@ -88,4 +88,4 @@ function App() {
   )
 }
 
-export default App
+export default App 

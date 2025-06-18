@@ -2,17 +2,18 @@ export function Dashboard({clientes,barberos}) {
     return (
         <>
             {/* Header */}
-            <div className="flex justify-between items-center mb-8">
+            <div className="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <h1 className="h2 fw-bold text-dark">
                         Panel de Administración
                     </h1>
-                    <p className="text-gray-600">Gestión general del negocio</p>
+                    <p className="text-muted">Gestión general del negocio</p>
                 </div>
-                <div className="flex items-center space-x-4">
-                    <button className="bg-white p-2 rounded-full text-gray-600 hover:text-gray-700">
+                <div className="d-flex align-items-center">
+                    <button className="btn btn-light rounded-circle p-2 me-3">
                         <svg
-                            className="h-6 w-6"
+                            width="24"
+                            height="24"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -25,9 +26,11 @@ export function Dashboard({clientes,barberos}) {
                             />
                         </svg>
                     </button>
-                    <button className="flex items-center space-x-2">
+                    <button className="btn btn-link p-0">
                         <img
-                            className="h-10 w-10 rounded-full"
+                            className="rounded-circle"
+                            width="40"
+                            height="40"
                             src=" https://ifxqightozunauqcnpzm.supabase.co/storage/v1/object/public/avatares/1c01ef8ed9221c6d79f300472be12035.jpg?"
                             alt="Admin"
                         />
@@ -36,182 +39,213 @@ export function Dashboard({clientes,barberos}) {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div className="bg-white rounded-lg shadow p-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-gray-500 text-sm">Ingresos Mensuales</h3>
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            +15%
-                        </span>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">€8,540</p>
-                    <div className="flex items-center mt-4 text-sm text-gray-600">
-                        <svg
-                            className="h-4 w-4 text-green-500 mr-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 10l7-7m0 0l7 7m-7-7v18"
-                            />
-                        </svg>
-                        <span>€1,200 más que el mes pasado</span>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow p-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-gray-500 text-sm">Total Empleados</h3>
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            
-                        </span>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{barberos.length} </p>
-                    <div className="flex items-center mt-4 text-sm text-gray-600">
-                        <div className="flex -space-x-2">
-                            <img
-                                className="h-6 w-6 rounded-full ring-2 ring-white"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3"
-                                alt=""
-                            />
-                            <img
-                                className="h-6 w-6 rounded-full ring-2 ring-white"
-                                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3"
-                                alt=""
-                            />
-                            <img
-                                className="h-6 w-6 rounded-full ring-2 ring-white"
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3"
-                                alt=""
-                            />
+            <div className="row g-3 mb-4">
+                <div className="col-12 col-md-6 col-lg-3">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h6 className="text-muted small">Ingresos Mensuales</h6>
+                                <span className="badge bg-success-subtle text-success small">
+                                    +15%
+                                </span>
+                            </div>
+                            <p className="h2 fw-bold text-dark mb-2">€8,540</p>
+                            <div className="d-flex align-items-center text-muted small">
+                                <svg
+                                    className="text-success me-1"
+                                    width="16"
+                                    height="16"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M5 10l7-7m0 0l7 7m-7-7v18"
+                                    />
+                                </svg>
+                                <span>€1,200 más que el mes pasado</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-gray-500 text-sm">Clientes Totales</h3>
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            
-                        </span>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">{clientes.length}</p>
-                    <div className="flex items-center mt-4 text-sm text-gray-600">
-                        <svg
-                            className="h-4 w-4 text-green-500 mr-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                        </svg>
-                        
+                <div className="col-12 col-md-6 col-lg-3">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h6 className="text-muted small">Total Empleados</h6>
+                                <span className="badge bg-success-subtle text-success small">
+                                    
+                                </span>
+                            </div>
+                            <p className="h2 fw-bold text-dark mb-2">{barberos.length}</p>
+                            <div className="d-flex align-items-center text-muted small">
+                                <div className="d-flex">
+                                    <img
+                                        className="rounded-circle border border-white"
+                                        width="24"
+                                        height="24"
+                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3"
+                                        alt=""
+                                        style={{marginRight: '-8px'}}
+                                    />
+                                    <img
+                                        className="rounded-circle border border-white"
+                                        width="24"
+                                        height="24"
+                                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3"
+                                        alt=""
+                                        style={{marginRight: '-8px'}}
+                                    />
+                                    <img
+                                        className="rounded-circle border border-white"
+                                        width="24"
+                                        height="24"
+                                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-gray-500 text-sm">Satisfacción</h3>
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            98%
-                        </span>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">4.9/5</p>
-                    <div className="flex items-center mt-4 text-sm text-gray-600">
-                        <div className="flex text-amber-500">
-                            {[...Array(5)].map((_, i) => (
+                <div className="col-12 col-md-6 col-lg-3">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h6 className="text-muted small">Clientes Totales</h6>
+                                <span className="badge bg-success-subtle text-success small">
+                                    
+                                </span>
+                            </div>
+                            <p className="h2 fw-bold text-dark mb-2">{clientes.length}</p>
+                            <div className="d-flex align-items-center text-muted small">
                                 <svg
-                                    key={i}
-                                    className="h-4 w-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
+                                    className="text-success me-1"
+                                    width="16"
+                                    height="16"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
                                 >
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
-                            ))}
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-12 col-md-6 col-lg-3">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h6 className="text-muted small">Satisfacción</h6>
+                                <span className="badge bg-success-subtle text-success small">
+                                    98%
+                                </span>
+                            </div>
+                            <p className="h2 fw-bold text-dark mb-2">4.9/5</p>
+                            <div className="d-flex align-items-center text-muted small">
+                                <div className="d-flex text-warning">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg
+                                            key={i}
+                                            width="16"
+                                            height="16"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Staff Management */}
-            <div className="bg-white rounded-lg shadow mb-8">
-                <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900">
+            <div className="card shadow-sm mb-4">
+                <div className="card-header bg-transparent border-bottom">
+                    <h5 className="fw-semibold text-dark mb-0">
                         Gestión de Personal
-                    </h2>
+                    </h5>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50">
+                <div className="table-responsive">
+                    <table className="table table-hover mb-0">
+                        <thead className="table-light">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Empleado
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Cargo
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Citas Hoy
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Rendimiento
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Estado
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="border-0 text-muted small text-uppercase fw-medium">
                                     Acciones
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody>
                             <tr>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center">
+                                <td>
+                                    <div className="d-flex align-items-center">
                                         <img
-                                            className="h-10 w-10 rounded-full"
+                                            className="rounded-circle me-3"
+                                            width="40"
+                                            height="40"
                                             src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3"
                                             alt=""
                                         />
-                                        <div className="ml-4">
-                                            <div className="text-sm font-medium text-gray-900">
+                                        <div>
+                                            <div className="fw-medium text-dark">
                                                 Juan Pérez
                                             </div>
-                                            <div className="text-sm text-gray-500">
+                                            <div className="text-muted small">
                                                 juan@barberstyle.com
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">Barbero Senior</div>
+                                <td>
+                                    <div className="text-dark">Barbero Senior</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">8 citas</div>
+                                <td>
+                                    <div className="text-dark">8 citas</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                <td>
+                                    <div className="progress mb-1" style={{height: '8px'}}>
                                         <div
-                                            className="bg-amber-600 h-2.5 rounded-full"
+                                            className="progress-bar bg-warning"
                                             style={{ width: "95%" }}
                                         ></div>
                                     </div>
-                                    <span className="text-sm text-gray-600">95%</span>
+                                    <span className="text-muted small">95%</span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <td>
+                                    <span className="badge bg-success-subtle text-success small">
                                         Activo
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <button className="text-amber-600 hover:text-amber-900 mr-3">
+                                <td>
+                                    <button className="btn btn-link btn-sm text-warning p-0 me-2">
                                         Editar
                                     </button>
-                                    <button className="text-red-600 hover:text-red-900">
+                                    <button className="btn btn-link btn-sm text-danger p-0">
                                         Eliminar
                                     </button>
                                 </td>
@@ -223,26 +257,28 @@ export function Dashboard({clientes,barberos}) {
             </div>
 
             {/* Recent Activity */}
-           {/*  <div className="bg-white rounded-lg shadow">
-                <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900">
+           {/*  <div className="card shadow-sm">
+                <div className="card-header bg-transparent border-bottom">
+                    <h5 className="fw-semibold text-dark mb-0">
                         Actividad Reciente
-                    </h2>
+                    </h5>
                 </div>
-                <div className="p-6">
+                <div className="card-body">
                     <div className="flow-root">
-                        <ul className="-mb-8">
+                        <ul className="list-unstyled">
                             <li>
-                                <div className="relative pb-8">
+                                <div className="position-relative pb-4">
                                     <span
-                                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                                        className="position-absolute top-0 start-0 h-100 w-1 bg-light"
                                         aria-hidden="true"
                                     ></span>
-                                    <div className="relative flex space-x-3">
+                                    <div className="d-flex">
                                         <div>
-                                            <span className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <span className="rounded-circle bg-success d-flex align-items-center justify-content-center" style={{width: '32px', height: '32px'}}>
                                                 <svg
-                                                    className="h-5 w-5 text-white"
+                                                    className="text-white"
+                                                    width="20"
+                                                    height="20"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -256,17 +292,17 @@ export function Dashboard({clientes,barberos}) {
                                                 </svg>
                                             </span>
                                         </div>
-                                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                        <div className="flex-fill pt-1 ms-3 d-flex justify-content-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-muted small mb-0">
                                                     Nuevo empleado{" "}
-                                                    <span className="font-medium text-gray-900">
+                                                    <span className="fw-medium text-dark">
                                                         Ana García
                                                     </span>{" "}
                                                     registrada
                                                 </p>
                                             </div>
-                                            <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                                            <div className="text-end text-muted small">
                                                 <time dateTime="2024-01-23">Hace 2h</time>
                                             </div>
                                         </div>
@@ -274,16 +310,18 @@ export function Dashboard({clientes,barberos}) {
                                 </div>
                             </li>
                             <li>
-                                <div className="relative pb-8">
+                                <div className="position-relative pb-4">
                                     <span
-                                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                                        className="position-absolute top-0 start-0 h-100 w-1 bg-light"
                                         aria-hidden="true"
                                     ></span>
-                                    <div className="relative flex space-x-3">
+                                    <div className="d-flex">
                                         <div>
-                                            <span className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                            <span className="rounded-circle bg-primary d-flex align-items-center justify-content-center" style={{width: '32px', height: '32px'}}>
                                                 <svg
-                                                    className="h-5 w-5 text-white"
+                                                    className="text-white"
+                                                    width="20"
+                                                    height="20"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -297,13 +335,13 @@ export function Dashboard({clientes,barberos}) {
                                                 </svg>
                                             </span>
                                         </div>
-                                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                        <div className="flex-fill pt-1 ms-3 d-flex justify-content-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-muted small mb-0">
                                                     Actualización de precios en servicios
                                                 </p>
                                             </div>
-                                            <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                                            <div className="text-end text-muted small">
                                                 <time dateTime="2024-01-23">Hace 6h</time>
                                             </div>
                                         </div>
@@ -316,4 +354,4 @@ export function Dashboard({clientes,barberos}) {
             </div> */}
         </>
     );
-}
+} 
