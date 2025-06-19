@@ -75,8 +75,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 # Serializar para mostrar datos de los perfiles que estan enlazados con el usuario
-
-
 class UserPerfil (serializers.ModelSerializer):
     class Meta:
         model = User
