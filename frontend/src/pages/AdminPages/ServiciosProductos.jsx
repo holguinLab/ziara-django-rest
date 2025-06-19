@@ -1,9 +1,68 @@
 import { useState } from "react"
 
-export function ServiciosProductos({ servicios }) {
+import axios from 'axios'
+export function ServiciosProductos({ servicios ,productos,listaActualizadaServicios,listaActualizadaProductos}) {
     const [activoProducto,setActivoProducto] = useState(false)
+    const API = import.meta.env.VITE_URL_API
     const [activoServicio,setActivoServicio] = useState(false)
     const [tab,setTab] =useState(0)
+
+    const [nombre , setNombre] = useState('')
+    const [precio , setPrecio] = useState('')
+    const [descripcion , setDescripcion] = useState('')
+    const [duracion,setDuracion]=useState('')
+
+
+    const handleSumbit = (e)=>{
+        e.preventDefault()
+        axios.post(`${API}/api/crear_servicio/`,{nombre,precio,descripcion,duracion},{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(()=>{
+            listaActualizadaServicios()
+            alert('Servicio Creado Correctamente')
+            setActivoServicio(false)
+            setDuracion('')
+            setPrecio('')
+            setNombre('')
+            setDescripcion('')
+            setTab(0)
+        })
+        .catch((error)=>{
+            alert(error)
+            setDuracion('')
+            setPrecio('')
+            setNombre('')
+            setDescripcion('')
+        })
+    }
+
+
+    const handleSumbitProducto = (e)=>{
+        e.preventDefault()
+        axios.post(`${API}/api/crear_producto/`,{nombre,precio,descripcion},{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(()=>{
+            listaActualizadaProductos()
+            alert('Producto Creado Correctamente')
+            setActivoProducto(false)
+            setPrecio('')
+            setNombre('')
+            setDescripcion('')
+            setTab(1)
+        })
+        .catch((error)=>{
+            alert(error)
+            setPrecio('')
+            setNombre('')
+            setDescripcion('')
+        })
+    }
+
+    const eliminarProducto = (id) =>{
+        axios.delete(`${API}/api/eliminar_producto/${id}`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(()=>{
+            listaActualizadaProductos()
+        })
+    }
+
     return (
         <div className="card shadow-lg">
             <div className="card-body">
@@ -76,24 +135,26 @@ export function ServiciosProductos({ servicios }) {
                                 </thead>
                                 <tbody>
                                     {/* Sample Service Row */}
-                                    <tr>
+                                    {servicios.map((servicio)=>(
+                                        <tr key={servicio.id}>
                                         <td>
-                                            <div className="small fw-medium text-dark">Corte de Cabello</div>
+                                            <div className="small fw-medium text-dark"> {servicio.nombre} </div>
                                         </td>
                                         <td>
-                                            <div className="small text-muted">Corte clásico con tijera y máquina</div>
+                                            <div className="small text-muted"> {servicio.descripcion}</div>
                                         </td>
                                         <td>
-                                            <div className="small text-muted">30 min</div>
+                                            <div className="small text-muted">{servicio.duracion}</div>
                                         </td>
                                         <td>
-                                            <div className="small text-dark">$25.00</div>
+                                            <div className="small text-dark">{servicio.precio}</div>
                                         </td>
                                         <td className="small fw-medium">
                                             <button className="btn btn-link btn-sm text-primary p-0 me-3">Editar</button>
                                             <button className="btn btn-link btn-sm text-danger p-0">Eliminar</button>
                                         </td>
                                     </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -114,9 +175,7 @@ export function ServiciosProductos({ servicios }) {
                                         <th className="border-0 text-muted small text-uppercase fw-medium">
                                             Descripción
                                         </th>
-                                        <th className="border-0 text-muted small text-uppercase fw-medium">
-                                            Duración
-                                        </th>
+                    
                                         <th className="border-0 text-muted small text-uppercase fw-medium">
                                             Precio
                                         </th>
@@ -127,63 +186,42 @@ export function ServiciosProductos({ servicios }) {
                                 </thead>
                                 <tbody>
                                     {/* Sample Service Row */}
-                                    <tr>
+                                    {productos.map((producto)=>(
+                                        <tr key={producto.id}>
                                         <td>
-                                            <div className="small fw-medium text-dark">C</div>
+                                            <div className="small fw-medium text-dark"> {producto.nombre} </div>
                                         </td>
                                         <td>
-                                            <div className="small text-muted">Corte clásico con tijera y máquina</div>
+                                            <div className="small text-muted"> {producto.descripcion}</div>
                                         </td>
                                         <td>
-                                            <div className="small text-muted">30 min</div>
-                                        </td>
-                                        <td>
-                                            <div className="small text-dark">$25.00</div>
+                                            <div className="small text-dark">{producto.precio}</div>
                                         </td>
                                         <td className="small fw-medium">
                                             <button className="btn btn-link btn-sm text-primary p-0 me-3">Editar</button>
-                                            <button className="btn btn-link btn-sm text-danger p-0">Eliminar</button>
+                                            <button  onClick={() => eliminarProducto(producto.id)} className="btn btn-link btn-sm text-danger p-0">Eliminar</button>
                                         </td>
                                     </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     )}
 
-                    
-                    <div className="mt-4 row g-3 d-none">
-                        {/* Sample Product Card */}
-                        <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="card shadow-sm h-100">
-                                <div className="bg-light" style={{height: '12rem'}}>
-                                    {/* Placeholder for product image */}
-                                </div>
-                                <div className="card-body">
-                                    <h5 className="fw-semibold text-dark">Pomada para Cabello</h5>
-                                    <p className="mt-1 small text-muted">Pomada de alta fijación para estilos clásicos</p>
-                                    <div className="mt-3 d-flex justify-content-between align-items-center">
-                                        <span className="h5 fw-bold text-dark mb-0">$15.00</span>
-                                        <div className="d-flex gap-2">
-                                            <button className="btn btn-link btn-sm text-primary p-0">Editar</button>
-                                            <button className="btn btn-link btn-sm text-danger p-0">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
 
                     {/* Modal Form for New Service */}
-                    <div className={`modal fade ${activoServicio ? 'show d-block' : ''}`} style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
+                    <div className={`modal fade ${activoServicio ? 'show d-block' : ''}`} style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content">
                                 <div className="modal-body">
                                     <h5 className="fw-medium text-dark mb-3">Nuevo Servicio</h5>
-                                    <form>
+                                    <form onSubmit={handleSumbit}>
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Nombre del Servicio</label>
                                             <input
+                                                onChange={(e)=>setNombre(e.target.value)}
+                                                value={nombre}
                                                 type="text"
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 placeholder="Ej: Corte de Cabello"
@@ -192,6 +230,8 @@ export function ServiciosProductos({ servicios }) {
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Descripción</label>
                                             <textarea
+                                                onChange={(e)=>setDescripcion(e.target.value)}
+                                                value={descripcion}
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 rows={3}
                                                 placeholder="Describe el servicio..."
@@ -200,7 +240,9 @@ export function ServiciosProductos({ servicios }) {
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Duración (minutos)</label>
                                             <input
-                                                type="number"
+                                                onChange={(e)=>setDuracion(e.target.value)}
+                                                value={duracion}
+                                                type="text"
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 placeholder="30"
                                             />
@@ -208,6 +250,8 @@ export function ServiciosProductos({ servicios }) {
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Precio</label>
                                             <input
+                                                onChange={(e)=>setPrecio(e.target.value)}
+                                                value={precio}
                                                 type="number"
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 placeholder="25.00"
@@ -234,15 +278,17 @@ export function ServiciosProductos({ servicios }) {
                     </div>
 
                     {/* Modal Form for New Product */}
-                    <div className="modal fade d-none" tabIndex="-1">
+                    <div className={`modal fade ${activoProducto ? 'show d-block' : ''}`} style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content">
                                 <div className="modal-body">
                                     <h5 className="fw-medium text-dark mb-3">Nuevo Producto</h5>
-                                    <form>
+                                    <form onSubmit={handleSumbitProducto}>
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Nombre del Producto</label>
                                             <input
+                                                onChange={(e)=>setNombre(e.target.value)}
+                                                value={nombre}
                                                 type="text"
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 placeholder="Ej: Pomada para Cabello"
@@ -251,6 +297,8 @@ export function ServiciosProductos({ servicios }) {
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Descripción</label>
                                             <textarea
+                                                onChange={(e)=>setDescripcion(e.target.value)}
+                                                value={descripcion}
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 rows={3}
                                                 placeholder="Describe el producto..."
@@ -259,12 +307,14 @@ export function ServiciosProductos({ servicios }) {
                                         <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Precio</label>
                                             <input
+                                                onChange={(e)=>setPrecio(e.target.value)}
+                                                value={precio}
                                                 type="number"
                                                 className="form-control border-secondary focus-ring focus-ring-primary"
                                                 placeholder="15.00"
                                             />
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label className="form-label fw-medium text-dark">Imagen del Producto</label>
                                             <div className="border-2 border-dashed border-secondary rounded p-4 text-center">
                                                 <div>
@@ -281,9 +331,9 @@ export function ServiciosProductos({ servicios }) {
                                                     <p className="small text-muted mb-0">PNG, JPG, GIF hasta 10MB</p>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="d-flex justify-content-end gap-2 mt-4">
-                                            <button
+                                            <button onClick={()=>setActivoProducto(false)}
                                                 type="button"
                                                 className="btn btn-secondary"
                                             >

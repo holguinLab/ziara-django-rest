@@ -7,6 +7,7 @@ import { AdminPanel } from './pages/AdminPanel'
 import { BarberPanel } from './pages/BarberPanel'
 import { Register } from './pages/Register'
 
+import {jwtDecode} from 'jwt-decode'
 
 import { useState,useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
@@ -17,8 +18,14 @@ function App() {
   useEffect(()=>{
     const token = localStorage.getItem('token')
     const rol = localStorage.getItem('rol')
-    if (token){
-      setLogueado(true)
+    if (token && typeof token === 'string'){
+      const decode = jwtDecode(token)
+      if (decode.exp && Date.now() /1000 <decode.exp){
+        setLogueado(true)
+      }else{
+        setLogueado(false)
+        localStorage.clear()
+      }
     }
     if (rol){
       setRol(rol)

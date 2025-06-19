@@ -15,6 +15,39 @@ export function AdminPanel() {
     const [clientes , setClientes] = useState([])
     const [barberos , setBarberos] = useState([])
     const [servicios , setServicios] = useState([])
+    const [productos , setProductos] = useState([])
+    
+
+    const listarServicios = ()=>{
+            axios.get(`${API}/api/servicios/`,{headers:{
+            Authorization:`Bearer ${token}`
+        }})
+        .then((res =>{
+            setAccess(true)
+            setServicios(res.data)
+        }))
+        .catch((error)=>{
+            if(error && error.response.status === 403){
+                alert('Te Pillamos Malicioso')
+            }
+        })
+        }
+    const listarProductos = ()=>{
+            axios.get(`${API}/api/productos/`,{headers:{
+            Authorization:`Bearer ${token}`
+        }})
+        .then((res =>{
+            setAccess(true)
+            setProductos(res.data)
+        }))
+        .catch((error)=>{
+            if(error && error.response.status === 403){
+                alert('Te Pillamos Malicioso')
+            }
+        })
+        }
+
+
     useEffect(()=>{
         axios.get(`${API}/api/listar_clientes/`,{headers:{
             Authorization:`Bearer ${token}`
@@ -42,18 +75,8 @@ export function AdminPanel() {
             }
         })
         
-        axios.get(`${API}/api/servicios/`,{headers:{
-            Authorization:`Bearer ${token}`
-        }})
-        .then((res =>{
-            setAccess(true)
-            setServicios(res.data)
-        }))
-        .catch((error)=>{
-            if(error && error.response.status === 403){
-                alert('Te Pillamos Malicioso')
-            }
-        })
+        listarServicios()
+        listarProductos()
     },[])
     return (
         acces ? (
@@ -131,7 +154,7 @@ export function AdminPanel() {
                     <ListarPersonal barberos={barberos} clientes={clientes}/>
                 )}
                 {activo === 'servicios' && (
-                    <ServiciosProductos servicios={servicios}/>
+                    <ServiciosProductos servicios={servicios}  productos={productos} listaActualizadaServicios={listarServicios} listaActualizadaProductos={listarProductos}/>
                 )}
             </main>
         </div>

@@ -92,6 +92,10 @@ class PerfileSerializer(serializers.ModelSerializer):
 class ServiciosSerializer(serializers.ModelSerializer):
     class Meta :
         model = Servicios
-        fields = ['id','nombre','precio','descripcion','categoria']
+        fields = ['id','nombre','precio','descripcion','categoria','duracion']
 
 
+class ProductosSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Productos
+        fields = ['id','nombre','precio','descripcion','categoria',]
