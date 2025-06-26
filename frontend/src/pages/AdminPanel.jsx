@@ -62,7 +62,7 @@ export function AdminPanel() {
             }
         })
 
-        axios.get(`${API}/api/listar_barberos/`,{headers:{
+        axios.get(`${API}/api/barberos/`,{headers:{
             Authorization:`Bearer ${token}`
         }})
         .then((res =>{

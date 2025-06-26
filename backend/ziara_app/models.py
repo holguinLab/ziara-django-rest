@@ -89,3 +89,16 @@ class Pagos(models.Model):
 class ProductosComprados(models.Model):
     pago = models.ForeignKey('Pagos', on_delete=models.CASCADE, related_name='productos_comprados')
     producto = models.ForeignKey('Productos', on_delete=models.CASCADE)
+    
+
+
+class Carrito(models.Model):
+    cliente = models.ForeignKey(Perfiles, on_delete=models.CASCADE)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+    comprado = models.BooleanField(default=False)
+
+class ItemCarrito(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)

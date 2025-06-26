@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
 
+import { useState } from "react"
+
 export function Navbar() {
+    const [toggle,setToggle] =useState(false)
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div className="container">
@@ -43,7 +46,7 @@ export function Navbar() {
 
                     {/* Mobile menu button */}
                     <div className="d-sm-none">
-                        <button type="button" className="btn btn-link text-muted p-2">
+                        <button onClick={()=>setToggle(!toggle)} type="button" className="btn btn-link text-muted p-2">
                             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -53,7 +56,7 @@ export function Navbar() {
             </div>
 
             {/* Mobile menu panel */}
-            <div className="d-sm-none d-none">
+            <div className={` ${toggle ? 'd-block':'d-none'} d-sm-none `}>
                 <div className="container py-2">
                     <div className="list-group list-group-flush">
                         <a href="#" className="list-group-item list-group-item-action bg-warning bg-opacity-10 text-warning border-start border-warning border-4">

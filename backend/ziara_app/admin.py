@@ -16,3 +16,9 @@ class AdminServicios(admin.ModelAdmin):
 class AdminProductos(admin.ModelAdmin):
     list_display = ['id','nombre','precio','descripcion','categoria',]
     list_editable = ['nombre','precio','descripcion','categoria']
+
+
+@admin.register(Carrito)
+class AdminCarrito(admin.ModelAdmin):
+    list_display = ['id','cliente','creado_en','actualizado_en','comprado']
+    list_editable = ['cliente','comprado']

@@ -97,3 +97,21 @@ class ProductosSerializer(serializers.ModelSerializer):
     class Meta :
         model = Productos
         fields = ['id','nombre','precio','descripcion','categoria',]
+        
+
+
+class ItemCarritoSerializer(serializers.ModelSerializer):
+    nombre_producto = serializers.CharField(  source = 'producto.nombre' , read_only=True )
+    
+    class Meta :
+        model = ItemCarrito
+        fields = ['id','carrito','producto','nombre_producto','cantidad']
+
+
+class CarritoProductoSerializer(serializers.ModelSerializer):
+    items = ItemCarritoSerializer(many=True,read_only=True)
+    
+    class Meta:
+        model = Carrito
+        fields = ['id', 'cliente', 'creado_en', 'actualizado_en', 'comprado', 'items']
+        read_only_fields = ['cliente', 'creado_en', 'actualizado_en']

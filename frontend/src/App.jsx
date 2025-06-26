@@ -6,6 +6,9 @@ import { Home } from './pages/Home'
 import { AdminPanel } from './pages/AdminPanel'
 import { BarberPanel } from './pages/BarberPanel'
 import { Register } from './pages/Register'
+import { Tienda } from './pages/clientePages/Tienda'
+
+import axios from 'axios'
 
 import {jwtDecode} from 'jwt-decode'
 
@@ -15,20 +18,33 @@ import { Navigate } from 'react-router-dom'
 function App() {
   const [logueado , setLogueado] = useState(false)
   const [rol , setRol] = useState('')
+  const API = import.meta.env.VITE_URL_API
+  
+
+  const verifyRol = ()=>{
+    axios.get(`${API}/api/verificar_rol/`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+    .then(res=>{
+      console.log(res.data.rol)
+      setRol(res.data.rol)
+    })
+    .catch((error)=>{
+      console.log(error)
+      setRol('')
+    })
+  }
+
+
   useEffect(()=>{
     const token = localStorage.getItem('token')
-    const rol = localStorage.getItem('rol')
     if (token && typeof token === 'string'){
       const decode = jwtDecode(token)
       if (decode.exp && Date.now() /1000 <decode.exp){
         setLogueado(true)
+        verifyRol()
       }else{
         setLogueado(false)
         localStorage.clear()
       }
-    }
-    if (rol){
-      setRol(rol)
     }
   },[])
 
@@ -38,7 +54,18 @@ function App() {
         {rol != 'A' && (<Navbar/>)}
         <main className='flex-fill'>
             <Routes>
-              <Route path='/' element={<Home/>} />
+              <Route path='/' element={
+                logueado? (
+                  rol === 'B' ? (
+                    <Navigate to='/barber_panel'/>
+                  ) : rol === 'A' ? (
+                    <Navigate to='/admin_panel'/>
+                  ) : (
+                    <Home/>
+                  )
+                ) : (
+                  <Home />
+                )} />
               <Route path='/login' element={
                 logueado? (
                   rol === 'B' ? (
@@ -49,7 +76,7 @@ function App() {
                     <Navigate to='/'/>
                   )
                 ) : (
-                  <Login setLogueado={setLogueado} setRol={setRol}/>
+                  <Login setLogueado={setLogueado}/>
                 )}/>
               <Route path='/register' element={
                 logueado? (
@@ -61,7 +88,7 @@ function App() {
                     <Navigate to='/'/>
                   )
                 ) : (
-                  <Register setLogueado={setLogueado} setRol={setRol}/>
+                  <Register setLogueado={setLogueado} />
                 )}/>
               <Route path='/admin_panel' element={
                 logueado? (
@@ -73,7 +100,7 @@ function App() {
                     <Navigate to='/'/>
                   )
                 ) : (
-                  <Login setLogueado={setLogueado} setRol={setRol}/>
+                  <Login setLogueado={setLogueado} />
                 )}/>
               <Route path='/barber_panel' element={
               logueado? (
@@ -85,8 +112,11 @@ function App() {
                     <Navigate to='/'/>
                   )
                 ) : (
-                  <Login setLogueado={setLogueado} setRol={setRol}/>
+                  <Login setLogueado={setLogueado} />
                 )}/>
+
+
+                <Route path='/tienda' element={<Tienda/>}/>
             </Routes>
         </main>
         {rol != 'A' && (<Footer/>)}
